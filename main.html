@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unnamed's RNG</title>
+    <style>
+      * {
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000000
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: url(menu.png);
+    background-position: center;
+    background-size: cover;
+    transition: background 0.5s;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    margin-top: 3vh;
+    display: inline-block;
+    padding: 10px;
+    background-color: #ffffff33;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0000001a;
+}
+
+.rButton {
+    margin: 20px;
+    padding: 29px 30px;
+    background: #6495ed;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    transition:
+        background-color 0.25s,
+        transform 0.3s ease-out;
+}
+
+#roll {
+    scale: 300%;
+}
+
+.rButton:hover {
+    background: #4169e1;
+}
+
+.rButton:active {
+    background: #2e4a9c;
+}
+
+.rButton:disabled {
+    background-color: #3a465c;
+    cursor: not-allowed;
+    transform: rotate(360deg);
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.commonBgImg {
+    background: url(common.png);
+    background-position: center;
+  background-size: cover;
+}
+
+.rareBgImg {
+    background: url(rare.png);
+    background-position: center;
+  background-size: cover;
+}
+
+.epicBgImg {
+    background: url(epic.jpg);
+    background-position: center;
+  background-size: cover;
+}
+
+.legendaryBgImg {
+    background: url(legendary.jpg);
+    background-position: center;
+  background-size: cover;
+}
+
+.impossibleBgImg {
+    background: url(impossible.jpg);
+    background-position: center;
+  background-size: cover;
+}
+
+.poweredBgImg {
+    background: url(powered.png);
+    background-position: center;
+  background-size: cover;
+}
+
+.solarpowerBgImg {
+    background: url(solarpower.jpg);
+    background-position: center;
+  background-size: cover;
+}
+
+.unstoppableBgImg {
+    background: url(unstoppable.gif);
+    background-position: center;
+    background-size: cover;
+}
+
+.gargBgImg {
+    background: url(gargantua.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.sovereignBgImg {
+    background: url(sovereign.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.engorspaBgImg {
+    background: url(engorspa.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.overtureBgImg {
+    background: url(overture.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.impeachedBgImg {
+    background: url(impeached.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.rngmasterBgImg {
+    background: url(rngmaster.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.silcarBgImg {
+    background: url(sillycar.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.brainrotBgImg {
+    background: url(brainrot.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.gregBgImg {
+    background: url(greg.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.blackBg {
+    background: #000000 !important;
+}
+
+.whiteFlash {
+    background: #ffffff !important;
+}
+
+.redBg {
+    background: #810606;
+}
+
+.inventory {
+    position: fixed;
+    transform: translateY(-50%);
+    width: 100%;
+    background-color: #ffffffcc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px #0000001a;
+    text-align: left;
+    overflow-y: auto;
+    max-width: 99vh;
+    margin-top: 35vh;
+  margin-bottom: 20px;
+}
+
+.inventory h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#inventoryList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#inventoryList li:active {
+    padding-bottom: 200px;
+}
+
+#inventoryList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    cursor: help;
+    transition:
+        padding 0.25s;
+}
+
+.inventory button {
+    margin-bottom: 5px;
+    padding: 4px;
+    font-size: 14px;
+    background: #6495ed;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 9px;
+    border: none;
+    transition:
+        background-color 0.25s,
+        transform 0.25s;
+}
+
+.inventory button:hover {
+    background-color: #4169e1;
+    transform: scale(1.2);
+}
+
+.pageButton {
+    margin: 5px;
+    padding: 10px;
+    font-size: 14px;
+    background: #6495ed;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: background-color 0.25s, transform 0.25s;
+}
+
+.pageButton:hover {
+    background-color: #4169e1;
+    transform: scale(1.1);
+}
+
+.pageButton:disabled {
+    background-color: #3a465c;
+    cursor: not-allowed;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.stupid {
+    position: absolute;
+    text-decoration: none;
+    color: #ffffff;
+    left: 961px;
+}
+
+.conJScare {
+    position: absolute;
+    background: #ffffff85;
+    border-radius: 10px;
+    top: -10px;
+    right: -10px;
+    padding-left: 25px;
+    padding-bottom: 20px;
+}
+
+.jScare {
+    position: relative;
+    text-decoration: none;
+    color: #ffffff;
+    top: 15px;
+    right: 15px;
+}
+
+.count {
+    position: absolute;
+    top: 22px;
+    right: 42px;
+}
+      </style>
+    <script src="https://kit.fontawesome.com/fe85db6219.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="containerInside">
+            <h1 class="gameTitle">Unnamed RNG</h1>
+            <button class="rButton" id="rollButton" onclick="clickSound()"><i id="roll" class="fa-solid fa-arrows-rotate"></i></button>
+            <div id="result"></div> 
+        </div>            
+    </div>
+    <div class="inventory">
+        <h2><i class="fa-solid fa-box-archive"></i> Inventory</h2>
+        <h3 hidden class="count">You have rolled <a class="totalCount" id="rollCountDisplay">0</a> times</h3 hidden>
+        <button id="deleteAllButton">Delete All</button>
+        <ul class="inv" id="inventoryList"></ul>
+        <div class="pagination">
+            <button id="backPageButton" class="pageButton" onclick="backPage()">First</button>
+            <button id="prevPageButton" class="pageButton" onclick="prevPage()">Previous</button>
+            <span id="pageNumber"></span>
+            <button id="nextPageButton" class="pageButton" onclick="nextPage()">Next</button>
+            <button id="lastPageButton" class="pageButton" onclick="lastPage()">Last</button>
+        </div>
+    </div>
+    <audio id="click" src="click.wav"></audio>
+    <audio id="suspenseAudio" src="suspence.mp3"></audio>
+    <audio id="unstoppableAudio" src="unstoppable.mp3" loop></audio>
+    <audio id="gargantuaAudio" src="gargantua.mp3" loop></audio>
+    <audio id="sovereignAudio" src="sovereign.ogg" loop></audio>
+    <audio id="engorspaAudio" src="engorspa.mp3" loop></audio>
+    <audio id="overtureAudio" src="overture.ogg" loop></audio>
+    <audio id="impeachedAudio" src="impeached.ogg" loop></audio>
+    <audio id="rngmasterAudio" src="rngmaster.mp3" loop></audio>
+    <audio id="silcarAudio" src="sillycar.mp3" loop></audio>
+    <audio id="brainrotAudio" src="brainrot.mp3" loop></audio>
+    <audio id="gregAudio" src="greg.mp3" loop></audio>
+    <script>
+let inventory = [];
+let currentPage = 1;
+const itemsPerPage = 5;
+let rollCount = 0;
+
+document.getElementById("rollButton").addEventListener("click", function() {
+    let rollButton = document.getElementById("rollButton");
+
+    if (rollCount < 1) {
+        rollCount++;
+    }
+
+    // Update the displayed roll count
+    document.getElementById("rollCountDisplay").innerText = rollCount;
+
+    let rarity = rollRarity();
+    let title = selectTitle(rarity);
+    
+    rollButton.disabled = true;
+
+    // Stop any playing audio
+    let suspenseAudio = document.getElementById("suspenseAudio");
+    let unstoppableAudio = document.getElementById("unstoppableAudio");
+    let gargantuaAudio = document.getElementById("gargantuaAudio");
+    let sovereignAudio = document.getElementById("sovereignAudio");
+    let engorspaAudio = document.getElementById("engorspaAudio");
+    let overtureAudio = document.getElementById("overtureAudio");
+    let impeachedAudio = document.getElementById("impeachedAudio");
+    let rngmasterAudio = document.getElementById("rngmasterAudio");
+    let silcarAudio = document.getElementById("silcarAudio");
+    let brainrotAudio = document.getElementById("brainrotAudio");
+    let gregAudio = document.getElementById("gregAudio");
+    suspenseAudio.pause();
+    unstoppableAudio.pause();
+    gargantuaAudio.pause();
+    sovereignAudio.pause();
+    engorspaAudio.pause();
+    overtureAudio.pause();
+    impeachedAudio.pause();
+    rngmasterAudio.pause();
+    silcarAudio.pause();
+    brainrotAudio.pause();
+    gregAudio.pause();
+    suspenseAudio.currentTime = 0;
+    unstoppableAudio.currentTime = 0;
+    gargantuaAudio.currentTime = 0;
+    sovereignAudio.currentTime = 300;
+    engorspaAudio.currentTime = 12.5;
+    overtureAudio.currentTime = 0;
+    impeachedAudio.currentTime = 0;
+    rngmasterAudio.currentTime = 0;
+    silcarAudio.currentTime = 0;
+    brainrotAudio.currentTime = 0;
+    gregAudio.currentTime = 0;
+
+    if (rarity.type === 'Unstoppable [1 in 111]' || rarity.type === 'Gargantua [1 in 1,111]' || rarity.type === 'Sovereign [1 in 11,111]' || rarity.type === 'English or Spanish [1 in 111,111]' || rarity.type === 'Overture [1 in 1,111,111]' || rarity.type === 'Impeached [1 in 11,111,111]' || rarity.type === 'RNG Master [1 in 101,010,101]' || rarity.type === 'Silly Car :3 [1 in 11,111,111,111]' || rarity.type === 'Brainrot [1 in 100,000,000,000]' || rarity.type === 'Greg [1 in 1,000,000,000,000]') {
+        // Hide result and change background to black
+        document.getElementById("result").innerText = '';
+        document.body.className = 'blackBg';
+        
+        // Play appropriate audio
+        if (rarity.type === 'Sovereign [1 in 11,111]') {
+            sovereignAudio.play();
+        } else if (rarity.type === 'Impeached [1 in 11,111,111]') {
+            impeachedAudio.play();
+        } else if (rarity.type === 'RNG Master [1 in 101,010,101]') {
+            rngmasterAudio.play();
+        } else if (rarity.type === 'Greg [1 in 1,000,000,000,000]') {
+            gregAudio.play();
+        } else if (rarity.type === 'Silly Car :3 [1 in 11,111,111,111]') {
+            document.body.className = 'whiteFlash';
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 100);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 200);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 300);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 400);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 500);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 600);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 700);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 800);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 900);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 1000);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 1100);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 1200);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 1300);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 1400);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 1500);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 1600);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 1700);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 1800);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 1900);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 2000);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 2100);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 2200);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 2300);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 2400);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 2500);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 2600);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 2700);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 2800);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 2900);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 3000);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 3100);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 3200);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 3300);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 3400);
+            setTimeout(function (){
+                document.body.className = 'redBg';                                  
+            }, 3500);
+            setTimeout(function (){
+                document.body.className = 'whiteFlash';                                  
+            }, 3600);
+            setTimeout(function (){
+                document.body.className = 'blackBg';                                  
+            }, 3700);
+            silcarAudio.play();
+        } else {
+            suspenseAudio.play();
+        }
+
+        if (rarity.type === 'Impeached [1 in 11,111,111]' || rarity.type === 'Greg [1 in 1,000,000,000,000]') {
+            setTimeout(() => {
+                document.body.className = 'whiteFlash';
+                setTimeout(() => {
+                    document.body.className = rarity.class;
+                    addToInventory(title, rarity.class);
+                    displayResult(title, rarity.type);
+                    rollButton.disabled = false;
+                    rollCount++;
+                }, 100); // Short white flash
+            }, 3000); // Wait for 3 seconds
+
+        } else if (rarity.type === 'RNG Master [1 in 101,010,101]') {
+            setTimeout(() => {
+                document.body.className = 'whiteFlash';
+                setTimeout(() => {
+                    document.body.className = rarity.class;
+                    addToInventory(title, rarity.class);
+                    displayResult(title, rarity.type);
+                    rollButton.disabled = false;
+                    rollCount++;
+                }, 100); // Short white flash
+            }, 14500); // Wait for 14.5 seconds
+
+        } else if (rarity.type === 'Sovereign [1 in 11,111]') {
+            setTimeout(() => {
+                document.body.className = 'whiteFlash';
+                setTimeout(() => {
+                    document.body.className = rarity.class;
+                    addToInventory(title, rarity.class);
+                    displayResult(title, rarity.type);
+                    rollButton.disabled = false;
+                    rollCount++;
+                }, 100); // Short white flash
+            }, 11300); // Wait for 11.3 seconds
+
+        } else if (rarity.type === 'Unstoppable [1 in 111]' || rarity.type === 'Gargantua [1 in 1,111]' || rarity.type === 'English or Spanish [1 in 111,111]' || rarity.type === 'Overture [1 in 1,111,111]' || rarity.type === 'Impeached [1 in 11,111,111]' || rarity.type === 'RNG Master [1 in 101,010,101]' || rarity.type === 'Silly Car :3 [1 in 11,111,111,111]' || rarity.type === 'Brainrot [1 in 100,000,000,000]' || rarity.type === 'Greg [1 in 1,000,000,000,000]') {
+            setTimeout(() => {
+                document.body.className = 'whiteFlash';
+
+                if (rarity.type === 'Unstoppable [1 in 111]') {
+                    unstoppableAudio.play();
+                }
+                if (rarity.type === 'Gargantua [1 in 1,111]') {
+                    gargantuaAudio.play();
+                }
+                if (rarity.type === 'English or Spanish [1 in 111,111]') {
+                    engorspaAudio.play();
+                }
+                if (rarity.type === 'Overture [1 in 1,111,111]') {
+                    overtureAudio.play();
+                }
+                if (rarity.type === 'Brainrot [1 in 100,000,000,000]') {
+                    brainrotAudio.play();
+                }
+                
+                setTimeout(() => {
+                    document.body.className = rarity.class;
+                    addToInventory(title, rarity.class);
+                    displayResult(title, rarity.type);
+                    rollButton.disabled = false;
+                }, 100); // Short white flash
+            }, 4400); // Wait for 4.4 seconds
+        }
+    } else {
+        addToInventory(title, rarity.class);
+        displayResult(title, rarity.type);
+        changeBackground(rarity.class);
+        rollCount++;
+        setTimeout(() => {
+            rollButton.disabled = false;
+        }, 500);
+    }
+});
+
+function rollRarity() {
+    const rarities = [
+        { type: 'Common [1 in 2]', class: 'commonBgImg', chance: 25, titles: ['Good', 'Natural', 'Simple', 'Basic', 'Plain', 'Average', 'Ordinary', 'Usual', 'Regular', 'Standard'] },
+        { type: 'Rare [1 in 3]', class: 'rareBgImg', chance: 16.5, titles: ['Divine', 'Crystallized', 'Radiant', 'Gleaming', 'Shimmering', 'Glowing', 'Luminous', 'Brilliant', 'Sparkling', 'Dazzling'] },
